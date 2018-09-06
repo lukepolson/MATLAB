@@ -1,0 +1,542 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Fowels and Cassidy Problem C 5.1</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-11-03"><meta name="DC.source" content="jupitermassring.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Fowels and Cassidy Problem C 5.1</h1><!--introduction--><p>Luke Polson V00849485</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Part A</a></li><li><a href="#2">Part B</a></li><li><a href="#3">Part C</a></li><li><a href="#4">Part D</a></li></ul></div><h2 id="1">Part A</h2><p>See scanned page at the end of this document.</p><h2 id="2">Part B</h2><p>Defines all Constants</p><pre class="codeinput">r=1.496*10^11;
+M=1.90*10^27;
+R=7.784*10^11;
+G=6.67*10^-11;
+
+<span class="comment">% This is the ``correct'' value for phi (still an approximation)</span>
+Phi_b=-(G*M/R)*(1+(r^2)/(4*R^2)+(3*r^4)/(8*R^4))
+</pre><pre class="codeoutput">
+Phi_b =
+
+  -1.6440e+05
+
+</pre><h2 id="3">Part C</h2><p>We explain the algorithm used below. n is the number of points placed around the ring. In the while loop, 10000 is an arbitrary large number of points used. theta0 is the angular spacing between points on the ring. theta is the angle with respect to the z unit vector. (we put earth at r in the z direction). The first forloop adds up the contributions from all the masses and calculates the total gravitational potential. The if statement after the for loop checks if the current calculated value of phi (using n points) and the value of phi calculated previouslly (n/2 points) differ by less than 1/10000. If they do, then the value of large_enough_n is determined to be n. The sequence of phi_prev and phi are included after this code for clarity on how the algorothm works.</p><pre class="codeinput">Phi_prev=-10000; <span class="comment">%Starts previous value at some far off number.</span>
+n=2;
+large_enough_n=0;
+<span class="keyword">while</span> (n&lt;100000)
+    Phi=0;
+    theta0=2*pi/n;
+    <span class="keyword">for</span> theta = 0:theta0:2*pi
+        Phi=Phi-G*(M/(n))/(r^2+R^2-2*r*R*cos(theta))^(0.5);
+    <span class="keyword">end</span>
+    <span class="keyword">if</span>(abs(Phi-Phi_prev)/abs(Phi)&lt;1.0/10000)
+        large_enough_n=n
+        <span class="keyword">break</span>;
+    <span class="keyword">end</span>
+    X = [<span class="string">'For n='</span>,num2str(n),<span class="string">' we have that phi= '</span>,num2str(Phi),<span class="string">' and phi_prev='</span>,num2str(Phi_prev)];
+    disp(X)
+    Phi_prev=Phi;
+    n=2*n;
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">For n=2 we have that phi= -269823.8709 and phi_prev=-10000
+For n=4 we have that phi= -214853.1052 and phi_prev=-269823.8709
+For n=8 we have that phi= -189536.7326 and phi_prev=-214853.1052
+For n=16 we have that phi= -176940.1977 and phi_prev=-189536.7326
+For n=32 we have that phi= -170641.9908 and phi_prev=-176940.1977
+For n=64 we have that phi= -167492.8873 and phi_prev=-170641.9908
+For n=128 we have that phi= -165918.3356 and phi_prev=-167492.8873
+For n=256 we have that phi= -165131.0597 and phi_prev=-165918.3356
+For n=512 we have that phi= -164737.4218 and phi_prev=-165131.0597
+For n=1024 we have that phi= -164540.6028 and phi_prev=-164737.4218
+For n=2048 we have that phi= -164442.1934 and phi_prev=-164540.6028
+For n=4096 we have that phi= -164392.9886 and phi_prev=-164442.1934
+For n=8192 we have that phi= -164368.3863 and phi_prev=-164392.9886
+
+large_enough_n =
+
+       16384
+
+</pre><h2 id="4">Part D</h2><p>We use the value of large_enough_n for our calcuations. m is the number of r values used. (i.e m=5 implies r=0, r=0.2, r=0.4, r=0.6, r=0.8 were used).</p><p>For R=0R</p><pre class="codeinput">R_curr=0*R;
+Phi_prev=-10000; <span class="comment">%Starts previous value at some far off number.</span>
+n=2;
+large_enough_n=0;
+<span class="keyword">while</span> (n&lt;100000)
+    Phi=0;
+    theta0=2*pi/n;
+    <span class="keyword">for</span> theta = 0:theta0:2*pi
+        Phi=Phi-G*(M/(n))/(r^2+R_curr^2-2*r*R_curr*cos(theta))^(0.5);
+    <span class="keyword">end</span>
+    <span class="keyword">if</span>(abs(Phi-Phi_prev)/abs(Phi)&lt;1.0/10000)
+        large_enough_n=n
+        <span class="keyword">break</span>;
+    <span class="keyword">end</span>
+    X = [<span class="string">'For n='</span>,num2str(n),<span class="string">' we have that phi= '</span>,num2str(Phi),<span class="string">' and phi_prev='</span>,num2str(Phi_prev)];
+    disp(X)
+    Phi_prev=Phi;
+    n=2*n;
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">For n=2 we have that phi= -1270688.5027 and phi_prev=-10000
+For n=4 we have that phi= -1058907.0856 and phi_prev=-1270688.5027
+For n=8 we have that phi= -953016.377 and phi_prev=-1058907.0856
+For n=16 we have that phi= -900071.0227 and phi_prev=-953016.377
+For n=32 we have that phi= -873598.3456 and phi_prev=-900071.0227
+For n=64 we have that phi= -860362.007 and phi_prev=-873598.3456
+For n=128 we have that phi= -853743.8377 and phi_prev=-860362.007
+For n=256 we have that phi= -850434.7531 and phi_prev=-853743.8377
+For n=512 we have that phi= -848780.2108 and phi_prev=-850434.7531
+For n=1024 we have that phi= -847952.9396 and phi_prev=-848780.2108
+For n=2048 we have that phi= -847539.304 and phi_prev=-847952.9396
+For n=4096 we have that phi= -847332.4862 and phi_prev=-847539.304
+For n=8192 we have that phi= -847229.0773 and phi_prev=-847332.4862
+
+large_enough_n =
+
+       16384
+
+</pre><p>For R=0.2R</p><pre class="codeinput">R_curr=0.2*R;
+Phi_prev=-10000; <span class="comment">%Starts previous value at some far off number.</span>
+n=2;
+large_enough_n=0;
+<span class="keyword">while</span> (n&lt;1000000)
+    Phi=0;
+    theta0=2*pi/n;
+    <span class="keyword">for</span> theta = 0:theta0:2*pi
+        Phi=Phi-G*(M/(n))/(r^2+R_curr^2-2*r*R_curr*cos(theta))^(0.5);
+    <span class="keyword">end</span>
+    <span class="keyword">if</span>(abs(Phi-Phi_prev)/abs(Phi)&lt;1.0/10000)
+        large_enough_n=n
+        <span class="keyword">break</span>;
+    <span class="keyword">end</span>
+    X = [<span class="string">'For n='</span>,num2str(n),<span class="string">' we have that phi= '</span>,num2str(Phi),<span class="string">' and phi_prev='</span>,num2str(Phi_prev)];
+    disp(X)
+    Phi_prev=Phi;
+    n=2*n;
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">For n=2 we have that phi= -21051313.5482 and phi_prev=-10000
+For n=4 we have that phi= -10819137.7598 and phi_prev=-21051313.5482
+For n=8 we have that phi= -5792779.5455 and phi_prev=-10819137.7598
+For n=16 we have that phi= -3369720.229 and phi_prev=-5792779.5455
+For n=32 we have that phi= -2245547.1578 and phi_prev=-3369720.229
+For n=64 we have that phi= -1760083.4716 and phi_prev=-2245547.1578
+For n=128 we have that phi= -1566052.2385 and phi_prev=-1760083.4716
+For n=256 we have that phi= -1482881.0649 and phi_prev=-1566052.2385
+For n=512 we have that phi= -1442162.9824 and phi_prev=-1482881.0649
+For n=1024 we have that phi= -1421807.7576 and phi_prev=-1442162.9824
+For n=2048 we have that phi= -1411630.1453 and phi_prev=-1421807.7576
+For n=4096 we have that phi= -1406541.3392 and phi_prev=-1411630.1453
+For n=8192 we have that phi= -1403996.9361 and phi_prev=-1406541.3392
+For n=16384 we have that phi= -1402724.7345 and phi_prev=-1403996.9361
+For n=32768 we have that phi= -1402088.6338 and phi_prev=-1402724.7345
+For n=65536 we have that phi= -1401770.5834 and phi_prev=-1402088.6338
+For n=131072 we have that phi= -1401611.5582 and phi_prev=-1401770.5834
+
+large_enough_n =
+
+      262144
+
+</pre><p>For R=0.4R</p><pre class="codeinput">R_curr=0.4*R;
+Phi_prev=-10000; <span class="comment">%Starts previous value at some far off number.</span>
+n=2;
+large_enough_n=0;
+<span class="keyword">while</span> (n&lt;1000000)
+    Phi=0;
+    theta0=2*pi/n;
+    <span class="keyword">for</span> theta = 0:theta0:2*pi
+        Phi=Phi-G*(M/(n))/(r^2+R_curr^2-2*r*R_curr*cos(theta))^(0.5);
+    <span class="keyword">end</span>
+    <span class="keyword">if</span>(abs(Phi-Phi_prev)/abs(Phi)&lt;1.0/10000)
+        large_enough_n=n
+        <span class="keyword">break</span>;
+    <span class="keyword">end</span>
+    X = [<span class="string">'For n='</span>,num2str(n),<span class="string">' we have that phi= '</span>,num2str(Phi),<span class="string">' and phi_prev='</span>,num2str(Phi_prev)];
+    disp(X)
+    Phi_prev=Phi;
+    n=2*n;
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">For n=2 we have that phi= -920907.7297 and phi_prev=-10000
+For n=4 we have that phi= -643889.3431 and phi_prev=-920907.7297
+For n=8 we have that phi= -532602.4945 and phi_prev=-643889.3431
+For n=16 we have that phi= -483123.667 and phi_prev=-532602.4945
+For n=32 we have that phi= -458639.9796 and phi_prev=-483123.667
+For n=64 we have that phi= -446398.6576 and phi_prev=-458639.9796
+For n=128 we have that phi= -440277.9966 and phi_prev=-446398.6576
+For n=256 we have that phi= -437217.666 and phi_prev=-440277.9966
+For n=512 we have that phi= -435687.5008 and phi_prev=-437217.666
+For n=1024 we have that phi= -434922.4182 and phi_prev=-435687.5008
+For n=2048 we have that phi= -434539.8769 and phi_prev=-434922.4182
+For n=4096 we have that phi= -434348.6062 and phi_prev=-434539.8769
+For n=8192 we have that phi= -434252.9709 and phi_prev=-434348.6062
+For n=16384 we have that phi= -434205.1532 and phi_prev=-434252.9709
+
+large_enough_n =
+
+       32768
+
+</pre><p>For R=0.6R</p><pre class="codeinput">R_curr=0.6*R;
+Phi_prev=-10000; <span class="comment">%Starts previous value at some far off number.</span>
+n=2;
+large_enough_n=0;
+<span class="keyword">while</span> (n&lt;100000)
+    Phi=0;
+    theta0=2*pi/n;
+    <span class="keyword">for</span> theta = 0:theta0:2*pi
+        Phi=Phi-G*(M/(n))/(r^2+R_curr^2-2*r*R_curr*cos(theta))^(0.5);
+    <span class="keyword">end</span>
+    <span class="keyword">if</span>(abs(Phi-Phi_prev)/abs(Phi)&lt;1.0/10000)
+        large_enough_n=n
+        <span class="keyword">break</span>;
+    <span class="keyword">end</span>
+    X = [<span class="string">'For n='</span>,num2str(n),<span class="string">' we have that phi= '</span>,num2str(Phi),<span class="string">' and phi_prev='</span>,num2str(Phi_prev)];
+    disp(X)
+    Phi_prev=Phi;
+    n=2*n;
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">For n=2 we have that phi= -501983.5481 and phi_prev=-10000
+For n=4 we have that phi= -380198.7644 and phi_prev=-501983.5481
+For n=8 we have that phi= -328655.7182 and phi_prev=-380198.7644
+For n=16 we have that phi= -303691.7241 and phi_prev=-328655.7182
+For n=32 we have that phi= -291215.9403 and phi_prev=-303691.7241
+For n=64 we have that phi= -284978.0488 and phi_prev=-291215.9403
+For n=128 we have that phi= -281859.1031 and phi_prev=-284978.0488
+For n=256 we have that phi= -280299.6303 and phi_prev=-281859.1031
+For n=512 we have that phi= -279519.8939 and phi_prev=-280299.6303
+For n=1024 we have that phi= -279130.0256 and phi_prev=-279519.8939
+For n=2048 we have that phi= -278935.0915 and phi_prev=-279130.0256
+For n=4096 we have that phi= -278837.6245 and phi_prev=-278935.0915
+For n=8192 we have that phi= -278788.891 and phi_prev=-278837.6245
+
+large_enough_n =
+
+       16384
+
+</pre><p>For R=0.8R</p><pre class="codeinput">R_curr=0.8*R;
+Phi_prev=-10000; <span class="comment">%Starts previous value at some far off number.</span>
+n=2;
+large_enough_n=0;
+<span class="keyword">while</span> (n&lt;100000)
+    Phi=0;
+    theta0=2*pi/n;
+    <span class="keyword">for</span> theta = 0:theta0:2*pi
+        Phi=Phi-G*(M/(n))/(r^2+R_curr^2-2*r*R_curr*cos(theta))^(0.5);
+    <span class="keyword">end</span>
+    <span class="keyword">if</span>(abs(Phi-Phi_prev)/abs(Phi)&lt;1.0/10000)
+        large_enough_n=n
+        <span class="keyword">break</span>;
+    <span class="keyword">end</span>
+    X = [<span class="string">'For n='</span>,num2str(n),<span class="string">' we have that phi= '</span>,num2str(Phi),<span class="string">' and phi_prev='</span>,num2str(Phi_prev)];
+    disp(X)
+    Phi_prev=Phi;
+    n=2*n;
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">For n=2 we have that phi= -349905.1696 and phi_prev=-10000
+For n=4 we have that phi= -273892.7423 and phi_prev=-349905.1696
+For n=8 we have that phi= -240029.4858 and phi_prev=-273892.7423
+For n=16 we have that phi= -223287.3136 and phi_prev=-240029.4858
+For n=32 we have that phi= -214916.6835 and phi_prev=-223287.3136
+For n=64 we have that phi= -210731.3685 and phi_prev=-214916.6835
+For n=128 we have that phi= -208638.711 and phi_prev=-210731.3685
+For n=256 we have that phi= -207592.3822 and phi_prev=-208638.711
+For n=512 we have that phi= -207069.2178 and phi_prev=-207592.3822
+For n=1024 we have that phi= -206807.6356 and phi_prev=-207069.2178
+For n=2048 we have that phi= -206676.8445 and phi_prev=-206807.6356
+For n=4096 we have that phi= -206611.449 and phi_prev=-206676.8445
+For n=8192 we have that phi= -206578.7512 and phi_prev=-206611.449
+
+large_enough_n =
+
+       16384
+
+</pre><p>Now we plot <tt>phi(r)-phi(0)</tt> as a function of r</p><pre class="codeinput">m=100;
+spacing=1/m;
+Phi_0=-G*M/R;
+
+rvalues=zeros(1,m);
+phivalues=zeros(1,m);
+
+n=1;
+<span class="keyword">for</span> rcurr=0:(1/m):(1-(1/m))
+    Phi=0;
+    theta0=2*pi/large_enough_n;
+    <span class="keyword">for</span> theta = 0:theta0:2*pi
+        Phi=Phi-G*(M/(large_enough_n))/((rcurr*r)^2+R^2-2*(rcurr*r)*R*cos(theta))^(0.5);
+    <span class="keyword">end</span>
+rvalues(1,n)=rcurr;
+phivalues(1,n)=abs(Phi-Phi_0);
+n=n+1;
+<span class="keyword">end</span>
+
+
+figure(<span class="string">'name'</span>,<span class="string">'Part D2'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'Gravitational Potential as a Function of Distance from Center of Mass Ring'</span>)
+ylabel(<span class="string">'Gravitational Potential'</span>)
+xlabel(<span class="string">'Fraction of Earth Radius r'</span>)
+plot(rvalues, phivalues);
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="jupitermassring_01.png" style="width:560px;height:420px;" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Fowels and Cassidy Problem C 5.1
+% Luke Polson
+% V00849485
+
+%% Part A
+% See scanned page at the end of this document.
+
+%% Part B
+% Defines all Constants
+r=1.496*10^11;
+M=1.90*10^27;
+R=7.784*10^11;
+G=6.67*10^-11;
+
+% This is the ``correct'' value for phi (still an approximation)
+Phi_b=-(G*M/R)*(1+(r^2)/(4*R^2)+(3*r^4)/(8*R^4))
+
+%% Part C
+% We explain the algorithm used below. n is the number of points placed
+% around the ring. In the while loop, 10000 is an arbitrary large number of
+% points
+% used. theta0 is the angular spacing between points on the ring. theta is
+% the angle with respect to the z unit vector. (we put earth at r in the 
+% z direction). The first forloop adds up the contributions from all the 
+% masses and calculates the total gravitational potential. The if statement
+% after the for loop checks if the current calculated value of phi (using n points) and the
+% value of phi calculated previouslly (n/2 points) differ by less than 1/10000. If they do, then
+% the value of large_enough_n is determined to be n. The sequence of
+% phi_prev and phi are included after this code for clarity on how the
+% algorothm works. 
+
+Phi_prev=-10000; %Starts previous value at some far off number.
+n=2; 
+large_enough_n=0; 
+while (n<100000) 
+    Phi=0;
+    theta0=2*pi/n;
+    for theta = 0:theta0:2*pi
+        Phi=Phi-G*(M/(n))/(r^2+R^2-2*r*R*cos(theta))^(0.5);
+    end
+    if(abs(Phi-Phi_prev)/abs(Phi)<1.0/10000)
+        large_enough_n=n
+        break;
+    end
+    X = ['For n=',num2str(n),' we have that phi= ',num2str(Phi),' and phi_prev=',num2str(Phi_prev)];
+    disp(X)
+    Phi_prev=Phi;
+    n=2*n;
+end
+
+%% Part D
+% We use the value of large_enough_n for our calcuations. m is the number of
+% r values used. (i.e m=5 implies r=0, r=0.2, r=0.4, r=0.6, r=0.8 were
+% used).
+
+%%
+% For R=0R
+
+R_curr=0*R;
+Phi_prev=-10000; %Starts previous value at some far off number.
+n=2; 
+large_enough_n=0; 
+while (n<100000) 
+    Phi=0;
+    theta0=2*pi/n;
+    for theta = 0:theta0:2*pi
+        Phi=Phi-G*(M/(n))/(r^2+R_curr^2-2*r*R_curr*cos(theta))^(0.5);
+    end
+    if(abs(Phi-Phi_prev)/abs(Phi)<1.0/10000)
+        large_enough_n=n
+        break;
+    end
+    X = ['For n=',num2str(n),' we have that phi= ',num2str(Phi),' and phi_prev=',num2str(Phi_prev)];
+    disp(X)
+    Phi_prev=Phi;
+    n=2*n;
+end
+
+%%
+% For R=0.2R
+
+R_curr=0.2*R;
+Phi_prev=-10000; %Starts previous value at some far off number.
+n=2; 
+large_enough_n=0; 
+while (n<1000000) 
+    Phi=0;
+    theta0=2*pi/n;
+    for theta = 0:theta0:2*pi
+        Phi=Phi-G*(M/(n))/(r^2+R_curr^2-2*r*R_curr*cos(theta))^(0.5);
+    end
+    if(abs(Phi-Phi_prev)/abs(Phi)<1.0/10000)
+        large_enough_n=n
+        break;
+    end
+    X = ['For n=',num2str(n),' we have that phi= ',num2str(Phi),' and phi_prev=',num2str(Phi_prev)];
+    disp(X)
+    Phi_prev=Phi;
+    n=2*n;
+end
+
+%%
+% For R=0.4R
+
+R_curr=0.4*R;
+Phi_prev=-10000; %Starts previous value at some far off number.
+n=2; 
+large_enough_n=0; 
+while (n<1000000) 
+    Phi=0;
+    theta0=2*pi/n;
+    for theta = 0:theta0:2*pi
+        Phi=Phi-G*(M/(n))/(r^2+R_curr^2-2*r*R_curr*cos(theta))^(0.5);
+    end
+    if(abs(Phi-Phi_prev)/abs(Phi)<1.0/10000)
+        large_enough_n=n
+        break;
+    end
+    X = ['For n=',num2str(n),' we have that phi= ',num2str(Phi),' and phi_prev=',num2str(Phi_prev)];
+    disp(X)
+    Phi_prev=Phi;
+    n=2*n;
+end
+
+%%
+% For R=0.6R
+
+R_curr=0.6*R;
+Phi_prev=-10000; %Starts previous value at some far off number.
+n=2; 
+large_enough_n=0; 
+while (n<100000) 
+    Phi=0;
+    theta0=2*pi/n;
+    for theta = 0:theta0:2*pi
+        Phi=Phi-G*(M/(n))/(r^2+R_curr^2-2*r*R_curr*cos(theta))^(0.5);
+    end
+    if(abs(Phi-Phi_prev)/abs(Phi)<1.0/10000)
+        large_enough_n=n
+        break;
+    end
+    X = ['For n=',num2str(n),' we have that phi= ',num2str(Phi),' and phi_prev=',num2str(Phi_prev)];
+    disp(X)
+    Phi_prev=Phi;
+    n=2*n;
+end
+
+%%
+% For R=0.8R
+
+R_curr=0.8*R;
+Phi_prev=-10000; %Starts previous value at some far off number.
+n=2; 
+large_enough_n=0; 
+while (n<100000) 
+    Phi=0;
+    theta0=2*pi/n;
+    for theta = 0:theta0:2*pi
+        Phi=Phi-G*(M/(n))/(r^2+R_curr^2-2*r*R_curr*cos(theta))^(0.5);
+    end
+    if(abs(Phi-Phi_prev)/abs(Phi)<1.0/10000)
+        large_enough_n=n
+        break;
+    end
+    X = ['For n=',num2str(n),' we have that phi= ',num2str(Phi),' and phi_prev=',num2str(Phi_prev)];
+    disp(X)
+    Phi_prev=Phi;
+    n=2*n;
+end
+
+%%
+% Now we plot |phi(r)-phi(0)| as a function of r
+
+m=100;
+spacing=1/m;
+Phi_0=-G*M/R;
+
+rvalues=zeros(1,m);
+phivalues=zeros(1,m);
+
+n=1;
+for rcurr=0:(1/m):(1-(1/m))
+    Phi=0;
+    theta0=2*pi/large_enough_n;
+    for theta = 0:theta0:2*pi
+        Phi=Phi-G*(M/(large_enough_n))/((rcurr*r)^2+R^2-2*(rcurr*r)*R*cos(theta))^(0.5);
+    end 
+rvalues(1,n)=rcurr;
+phivalues(1,n)=abs(Phi-Phi_0);
+n=n+1;
+end
+
+
+figure('name','Part D2','NumberTitle','on');
+hold on;
+title('Gravitational Potential as a Function of Distance from Center of Mass Ring')
+ylabel('Gravitational Potential')
+xlabel('Fraction of Earth Radius r')
+plot(rvalues, phivalues);
+hold off;
+
+
+
+
+        
+##### SOURCE END #####
+--></body></html>

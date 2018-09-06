@@ -1,0 +1,238 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Fowels and Cassidy Problem C 4.1</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-10-13"><meta name="DC.source" content="planedrop.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Fowels and Cassidy Problem C 4.1</h1><!--introduction--><p>Luke Polson V00849485</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Constants</a></li><li><a href="#2">Differential Equations</a></li><li><a href="#3">Part A/B</a></li><li><a href="#5">Part C</a></li></ul></div><h2 id="1">Constants</h2><p>Defines all the constants used in the program. Converts all numbers to standard units.</p><pre class="codeinput">h=50000/3.28084; <span class="comment">%Converts to meters</span>
+<span class="comment">% Diameter</span>
+D=2*0.2; <span class="comment">%2*radius</span>
+<span class="comment">% Mass</span>
+m=100;
+<span class="comment">% Gravity</span>
+g= 9.81;
+<span class="comment">%Speed of air WRT Ground</span>
+V = -26.8224;
+<span class="comment">% Friction constants</span>
+c1=(1.55*10^(-4))*D;
+c2=(0.22)*D^2;
+<span class="comment">% Speed of plane WRT Ground - obtained through trial and error</span>
+vplane = 18.524;
+</pre><h2 id="2">Differential Equations</h2><p>Solves for x as a function of time and y as a function of time.</p><pre class="codeinput">yheight=@(t,y)[y(2); -(c1/m)*y(2)-(c2/m)*y(2)*abs(y(2))-g];
+sol1 = ode45(yheight, [0,500], [h,0]);
+y1 = 0:0.1:150;
+y = deval(sol1,y1,1);
+
+xheight=@(t,x)[x(2); -(c1/m)*(x(2)-V)-(c2/m)*(x(2)-V)*abs(x(2)-V)];
+sol1 = ode45(xheight, [0 500], [0,vplane]);
+x1 = 0:0.1:150;
+x = deval(sol1,x1,1);
+</pre><h2 id="3">Part A/B</h2><p>Plots trajectory of bomb with vplane = 18.524m/s with respect to the ground. This value was obtained by plotting various times and optimizing so that the x intercept was as close to zero as possible</p><pre class="codeinput">figure(<span class="string">'name'</span>,<span class="string">'Part A/B'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'Trajectory of Bomb Drop'</span>)
+ylabel(<span class="string">'y coordinate (m)'</span>)
+xlabel(<span class="string">'x coordinate (m)'</span>)
+plot(x,y)
+ylim([0,inf])
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="planedrop_01.png" style="width:560px;height:420px;" alt=""> <p>The trailing side of the trajectory is linear because the bomb has reached terminal velocity with respect to the air in terms of y, and is moving with constant velocity with respect to the air in terms of x.</p><h2 id="5">Part C</h2><p>The values of the following speeds were obtained by plotting various initial plane speeds and finding the values at which the x axis intercepted at x=-100 and x=100.</p><p>This value corresponds to the bomb landing 100m east of the target</p><pre class="codeinput">vplane=21.2;
+
+xheight=@(t,x)[x(2); -(c1/m)*(x(2)-V)-(c2/m)*(x(2)-V)*abs(x(2)-V)];
+sol1 = ode45(xheight, [0 500], [0,vplane]);
+x1 = 0:0.1:150;
+x = deval(sol1,x1,1);
+
+
+figure(<span class="string">'name'</span>,<span class="string">'Part A/B'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'Trajectory of Bomb Drop'</span>)
+ylabel(<span class="string">'y coordinate (m)'</span>)
+xlabel(<span class="string">'x coordinate (m)'</span>)
+plot(x,y)
+ylim([0,inf])
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="planedrop_02.png" style="width:560px;height:420px;" alt=""> <p>This value corresponds to the bomb landing 100m west of the target</p><pre class="codeinput">vplane=16.0;
+
+xheight=@(t,x)[x(2); -(c1/m)*(x(2)-V)-(c2/m)*(x(2)-V)*abs(x(2)-V)];
+sol1 = ode45(xheight, [0 500], [0,vplane]);
+x1 = 0:0.1:150;
+x = deval(sol1,x1,1);
+
+figure(<span class="string">'name'</span>,<span class="string">'Part A/B'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'Trajectory of Bomb Drop'</span>)
+ylabel(<span class="string">'y coordinate (m)'</span>)
+xlabel(<span class="string">'x coordinate (m)'</span>)
+plot(x,y)
+ylim([0,inf])
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="planedrop_03.png" style="width:560px;height:420px;" alt=""> <p>It follows that the pilot must control the plane within about plus or minus 2.6m/s to hit within 100m of the target. In terms of miles per hour this is an error of around  plus or minus 5.8 miles per hour.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Fowels and Cassidy Problem C 4.1
+% Luke Polson
+% V00849485
+%% Constants
+% Defines all the constants used in the program. Converts all numbers to
+% standard units.
+
+h=50000/3.28084; %Converts to meters
+% Diameter
+D=2*0.2; %2*radius
+% Mass
+m=100;
+% Gravity
+g= 9.81;
+%Speed of air WRT Ground
+V = -26.8224;
+% Friction constants
+c1=(1.55*10^(-4))*D;
+c2=(0.22)*D^2;
+% Speed of plane WRT Ground - obtained through trial and error
+vplane = 18.524;
+%% Differential Equations
+% Solves for x as a function of time and y as a function of time.
+yheight=@(t,y)[y(2); -(c1/m)*y(2)-(c2/m)*y(2)*abs(y(2))-g];
+sol1 = ode45(yheight, [0,500], [h,0]);
+y1 = 0:0.1:150;
+y = deval(sol1,y1,1);
+
+xheight=@(t,x)[x(2); -(c1/m)*(x(2)-V)-(c2/m)*(x(2)-V)*abs(x(2)-V)];
+sol1 = ode45(xheight, [0 500], [0,vplane]);
+x1 = 0:0.1:150;
+x = deval(sol1,x1,1);
+
+%% Part A/B
+% Plots trajectory of bomb with vplane = 18.524m/s with respect to the ground. This value
+% was obtained by plotting various times and optimizing so that the x
+% intercept was as close to zero as possible
+figure('name','Part A/B','NumberTitle','on');
+hold on;
+title('Trajectory of Bomb Drop')
+ylabel('y coordinate (m)')
+xlabel('x coordinate (m)')
+plot(x,y)
+ylim([0,inf])
+hold off;
+%%
+% The trailing side of the trajectory is linear because the bomb has
+% reached terminal velocity with respect to the air in terms of y,
+% and is moving with constant velocity with respect to the air in terms of
+% x.
+
+%% Part C
+% The values of the following speeds were obtained by plotting various
+% initial plane speeds and finding the values at which the x axis
+% intercepted at x=-100 and x=100. 
+
+%%
+% This value corresponds to the bomb landing 100m east of the target
+
+vplane=21.2;
+
+xheight=@(t,x)[x(2); -(c1/m)*(x(2)-V)-(c2/m)*(x(2)-V)*abs(x(2)-V)];
+sol1 = ode45(xheight, [0 500], [0,vplane]);
+x1 = 0:0.1:150;
+x = deval(sol1,x1,1);
+
+
+figure('name','Part A/B','NumberTitle','on');
+hold on;
+title('Trajectory of Bomb Drop')
+ylabel('y coordinate (m)')
+xlabel('x coordinate (m)')
+plot(x,y)
+ylim([0,inf])
+hold off;
+
+%%
+% This value corresponds to the bomb landing 100m west of the target
+
+vplane=16.0;
+
+xheight=@(t,x)[x(2); -(c1/m)*(x(2)-V)-(c2/m)*(x(2)-V)*abs(x(2)-V)];
+sol1 = ode45(xheight, [0 500], [0,vplane]);
+x1 = 0:0.1:150;
+x = deval(sol1,x1,1);
+
+figure('name','Part A/B','NumberTitle','on');
+hold on;
+title('Trajectory of Bomb Drop')
+ylabel('y coordinate (m)')
+xlabel('x coordinate (m)')
+plot(x,y)
+ylim([0,inf])
+hold off;
+
+%%
+% It follows that the pilot must control the plane within about plus or
+% minus 2.6m/s to hit within 100m of the target. In terms of miles per hour this is an error of around  plus
+% or minus 5.8 miles per hour. 
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

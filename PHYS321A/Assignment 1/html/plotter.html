@@ -1,0 +1,241 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Fowels and Cassidy Problem C 2.1</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-10-09"><meta name="DC.source" content="plotter.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Fowels and Cassidy Problem C 2.1</h1><!--introduction--><p>Luke Polson V00849485</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Constants</a></li><li><a href="#2">ODE Solver</a></li><li><a href="#3">Plotting of Altitude</a></li><li><a href="#4">Plotting Of Velocity and Acceleration</a></li></ul></div><h2 id="1">Constants</h2><p>Defines appropriate constants</p><pre class="codeinput">c=0.5;
+m=70;
+heightinitial=32000;
+g = 9.8;
+</pre><h2 id="2">ODE Solver</h2><p>Solves ODEs for each parts a-c</p><pre class="codeinput"><span class="comment">% Part A</span>
+fa = @(t,y)[y(2) ; -g];
+[ta,sola] = ode45(fa, [0 100], [heightinitial; 0]);
+heighta=sola(:,1); <span class="comment">% entire first column -&gt;corresponds to y(1)=x (height)</span>
+speeda=sola(:,2);  <span class="comment">%entire second column -&gt;corresponds to y(2)=v (speed)</span>
+
+<span class="comment">% Part B</span>
+fb = @(t,y)[y(2) ; -g-(c/m)*abs(y(2))*(y(2))];
+[tb,solb] = ode45(fb, [0 1000], [heightinitial; 0]);
+heightb=solb(:,1); <span class="comment">% entire first column -&gt;corresponds to y(1)=x (height)</span>
+speedb=solb(:,2);  <span class="comment">%entire second column -&gt;corresponds to y(2)=v (speed)</span>
+
+<span class="comment">% Part C</span>
+fc = @(t,y)[y(2) ; compgrav(y(1))+(constfall(y(1))/m)*y(2)^2];
+[tc,solc] = ode45(fc, [0 1000], [heightinitial; 0]);
+heightc=solc(:,1); <span class="comment">% entire first column -&gt;corresponds to y(1)=x (height)</span>
+speedc=solc(:,2);  <span class="comment">%entire second column -&gt;corresponds to y(2)=v (speed)</span>
+</pre><h2 id="3">Plotting of Altitude</h2><p>Plots height as a function of time for each part Uses an interpolate function to find the point where the parachute man hits the ground, and plots this position on the graph</p><pre class="codeinput"><span class="comment">%Part A</span>
+figure(<span class="string">'name'</span>,<span class="string">'Height Part A'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+
+title(<span class="string">'Height Above Ground For Parachute Man Part A'</span>)
+ylabel(<span class="string">'Height Above Earth (m)'</span>)
+xlabel(<span class="string">'Time (s)'</span>)
+plot(ta,heighta, <span class="string">'r'</span>);
+tgrounda = interp1(heighta,ta,0);
+plot(tgrounda, 0, <span class="string">'or'</span>);
+text(tgrounda+2,0,[<span class="string">'('</span> num2str(tgrounda),<span class="string">','</span> num2str(0) <span class="string">')'</span>]);
+hold <span class="string">off</span>;
+
+<span class="comment">%Part B</span>
+figure(<span class="string">'name'</span>,<span class="string">'Height Part B'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'Height Above Ground For Parachute Man Part B'</span>)
+ylabel(<span class="string">'Height Above Earth (m)'</span>)
+xlabel(<span class="string">'Time (s)'</span>)
+plot(tb,heightb, <span class="string">'g'</span>);
+tgroundb = interp1(heightb,tb,0);
+plot(tgroundb, 0, <span class="string">'og'</span>);
+text(tgroundb-200,0,[<span class="string">'('</span> num2str(tgroundb),<span class="string">','</span> num2str(0) <span class="string">')'</span>]);
+hold <span class="string">off</span>;
+
+<span class="comment">%Part C</span>
+figure(<span class="string">'name'</span>,<span class="string">'Height Part C'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'Height Above Ground For Parachute Man Part C'</span>)
+ylabel(<span class="string">'Height Above Earth (m)'</span>)
+xlabel(<span class="string">'Time (s)'</span>)
+plot(tc,heightc, <span class="string">'b'</span>);
+tgroundc = interp1(heightc,tc,0);
+plot(tgroundc, 0, <span class="string">'ob'</span>);
+text(tgroundc-200,0,[<span class="string">'('</span> num2str(tgroundc),<span class="string">','</span> num2str(0) <span class="string">')'</span>]);
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="plotter_01.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="plotter_02.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="plotter_03.png" style="width:560px;height:420px;" alt=""> <h2 id="4">Plotting Of Velocity and Acceleration</h2><p>Plots velocity and acceleration of parachute man for part c</p><pre class="codeinput"><span class="comment">%Velocity</span>
+figure(<span class="string">'name'</span>,<span class="string">'Velocity Part C'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'Velocity of Parachute Man Part C'</span>)
+ylabel(<span class="string">'Velocity (m/s)'</span>)
+xlabel(<span class="string">'Time (s)'</span>)
+plot(tc,speedc, <span class="string">'b'</span>);
+hold <span class="string">off</span>;
+<span class="comment">%Acceleration</span>
+figure(<span class="string">'name'</span>,<span class="string">'Acceleration Part C'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'Acceleration of Parachute Man Part C'</span>)
+ylabel(<span class="string">'Acceleration (m/s^2)'</span>)
+xlabel(<span class="string">'Time (s)'</span>)
+a=diff(speedc)./diff(tc);
+a(end+1)=a(end);
+plot(tc,a,<span class="string">'r'</span>);
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="plotter_04.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="plotter_05.png" style="width:560px;height:420px;" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Fowels and Cassidy Problem C 2.1
+% Luke Polson V00849485
+
+%% Constants
+% Defines appropriate constants
+c=0.5;
+m=70;
+heightinitial=32000;
+g = 9.8;
+
+%% ODE Solver
+% Solves ODEs for each parts a-c
+
+% Part A
+fa = @(t,y)[y(2) ; -g];
+[ta,sola] = ode45(fa, [0 100], [heightinitial; 0]);
+heighta=sola(:,1); % entire first column ->corresponds to y(1)=x (height)
+speeda=sola(:,2);  %entire second column ->corresponds to y(2)=v (speed)
+
+% Part B
+fb = @(t,y)[y(2) ; -g-(c/m)*abs(y(2))*(y(2))];
+[tb,solb] = ode45(fb, [0 1000], [heightinitial; 0]);
+heightb=solb(:,1); % entire first column ->corresponds to y(1)=x (height)
+speedb=solb(:,2);  %entire second column ->corresponds to y(2)=v (speed)
+
+% Part C
+fc = @(t,y)[y(2) ; compgrav(y(1))+(constfall(y(1))/m)*y(2)^2];
+[tc,solc] = ode45(fc, [0 1000], [heightinitial; 0]);
+heightc=solc(:,1); % entire first column ->corresponds to y(1)=x (height)
+speedc=solc(:,2);  %entire second column ->corresponds to y(2)=v (speed)
+
+%% Plotting of Altitude
+% Plots height as a function of time for each part Uses an interpolate
+% function to find the point where the parachute man hits the ground, and
+% plots this position on the graph
+
+%Part A
+figure('name','Height Part A','NumberTitle','on');
+hold on;
+
+title('Height Above Ground For Parachute Man Part A')
+ylabel('Height Above Earth (m)')
+xlabel('Time (s)')
+plot(ta,heighta, 'r');
+tgrounda = interp1(heighta,ta,0);
+plot(tgrounda, 0, 'or');
+text(tgrounda+2,0,['(' num2str(tgrounda),',' num2str(0) ')']);
+hold off;
+
+%Part B
+figure('name','Height Part B','NumberTitle','off');
+hold on;
+title('Height Above Ground For Parachute Man Part B')
+ylabel('Height Above Earth (m)')
+xlabel('Time (s)')
+plot(tb,heightb, 'g');
+tgroundb = interp1(heightb,tb,0);
+plot(tgroundb, 0, 'og');
+text(tgroundb-200,0,['(' num2str(tgroundb),',' num2str(0) ')']);
+hold off;
+
+%Part C
+figure('name','Height Part C','NumberTitle','off');
+hold on;
+title('Height Above Ground For Parachute Man Part C')
+ylabel('Height Above Earth (m)')
+xlabel('Time (s)')
+plot(tc,heightc, 'b');
+tgroundc = interp1(heightc,tc,0);
+plot(tgroundc, 0, 'ob');
+text(tgroundc-200,0,['(' num2str(tgroundc),',' num2str(0) ')']);
+hold off;
+
+%% Plotting Of Velocity and Acceleration 
+% Plots velocity and acceleration of parachute man for part c
+
+%Velocity
+figure('name','Velocity Part C','NumberTitle','off');
+hold on;
+title('Velocity of Parachute Man Part C')
+ylabel('Velocity (m/s)')
+xlabel('Time (s)')
+plot(tc,speedc, 'b');
+hold off;
+%Acceleration
+figure('name','Acceleration Part C','NumberTitle','off');
+hold on;
+title('Acceleration of Parachute Man Part C')
+ylabel('Acceleration (m/s^2)')
+xlabel('Time (s)')
+a=diff(speedc)./diff(tc);
+a(end+1)=a(end);
+plot(tc,a,'r');
+hold off;
+##### SOURCE END #####
+--></body></html>

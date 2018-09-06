@@ -1,0 +1,319 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>a10bonusq</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-12-07"><meta name="DC.source" content="a10bonusq.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1></h1><!--introduction--><p>NOTE TO MARKER: See physical copy of assignment 8 for all written work for parts a) and b)</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">PART A</a></li><li><a href="#10">PART B</a></li><li><a href="#18">PART C</a></li><li><a href="#19">PART D</a></li></ul></div><p>Seting up the ODE solver</p><pre class="codeinput">warning(<span class="string">'off'</span>,<span class="string">'all'</span>)
+type <span class="string">particlemotion</span>
+</pre><pre class="codeoutput">
+function df = particlemotion(t,f)
+
+df = zeros(2,1);
+df(1) = f(2); % represents y(x)
+df(2) = (1+(f(2)).^2)/(4-2*f(1)); %represents y'(x)
+</pre><h2 id="2">PART A</h2><p>We begin by creating the initial conditions for the bead. Note that we require a large negative starting slope</p><pre class="codeinput">initialconditions=[1.999999,-1390];
+x=[0,pi];
+
+[x,sol]=ode45(@particlemotion,x,initialconditions);
+
+
+theta=linspace(0,pi);
+xcycloid=theta-sin(theta);
+ycycloid=1+cos(theta);
+</pre><p>This is a graph of our solution to the ODE</p><p>Graph 1</p><pre class="codeinput">figure(<span class="string">'name'</span>,<span class="string">'Solution to ODE'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'Trajectory of bead ODE'</span>)
+ylabel(<span class="string">'y component (m)'</span>)
+xlabel(<span class="string">'x component (m)'</span>)
+plot(x,sol(:,1),<span class="string">'r'</span>); <span class="comment">%particle 1</span>
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="a10bonusq_01.png" style="width:560px;height:420px;" alt=""> <p>This is a graph of the cycloid</p><p>Graph 2</p><pre class="codeinput">figure(<span class="string">'name'</span>,<span class="string">'Cycloid'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'Trajectory of bead Cycloid'</span>)
+ylabel(<span class="string">'y component (m)'</span>)
+xlabel(<span class="string">'x component (m)'</span>)
+plot(xcycloid,ycycloid,<span class="string">'b'</span>)
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="a10bonusq_02.png" style="width:560px;height:420px;" alt=""> <p>Note that they are basically identical when we plot them over top of eachother.</p><p>Graph 3</p><pre class="codeinput">figure(<span class="string">'name'</span>,<span class="string">'Solution and Cycloid'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'Trajectory of Bead Cycloid and ODE'</span>)
+ylabel(<span class="string">'y component (m)'</span>)
+xlabel(<span class="string">'x component (m)'</span>)
+plot(x,sol(:,1),<span class="string">'r'</span>); <span class="comment">%particle 1</span>
+plot(xcycloid,ycycloid,<span class="string">'b'</span>)
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="a10bonusq_03.png" style="width:560px;height:420px;" alt=""> <h2 id="10">PART B</h2><p>We define a2 as a function of a1 (we write a1 as 'a' in this code).</p><pre class="codeinput">a2 = @(a) -((2+pi*a)/(pi^2));
+f = @(a,x) ((1+(a+2*a2(a).*x).^2)./(-a.*x-a2(a).*x.^2)).^(0.5);
+a = -15:.1:10;
+g = 0*a;
+<span class="keyword">for</span> k = 1:numel(a)
+    fab = @(x) f(a(k),x);
+    g(k) = quadgk(fab,0,pi);
+<span class="keyword">end</span>
+</pre><p>This graph plots the fall time as a function of a</p><p>Graph 4</p><pre class="codeinput">figure(<span class="string">'name'</span>,<span class="string">'Value of Time for Various a1'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'Time taken for fall as a function of parameter a1'</span>)
+ylabel(<span class="string">'Time'</span>)
+xlabel(<span class="string">'a1'</span>)
+plot(a,g,<span class="string">'r'</span>);
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="a10bonusq_04.png" style="width:560px;height:420px;" alt=""> <p>This seems to imply we want to make a as large as possible. From the graph below we show that if a&gt;0 (for an example of a=1) then the particle begins by moving upward which can't happen if the bead is falling down.</p><pre class="codeinput">x=linspace(0,pi);
+y=@(x) 2+(1)*x+a2(1).*x.^2;
+</pre><p>Graph 5</p><pre class="codeinput">figure(<span class="string">'name'</span>,<span class="string">'Value of Time for Various a1'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'x and y coordinates of particle'</span>)
+ylabel(<span class="string">'y'</span>)
+xlabel(<span class="string">'x'</span>);
+plot(x,y(x),<span class="string">'r'</span>);
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="a10bonusq_05.png" style="width:560px;height:420px;" alt=""> <p>It follows that a&lt;0. We choose the value of a&lt;0 that minimizes the motion. We thus examine the following graph time as a function of 'a' more closely.</p><pre class="codeinput">a = -3:.01:-0.5;
+g = 0*a;
+<span class="keyword">for</span> k = 1:numel(a)
+    fab = @(x) f(a(k),x);
+    g(k) = quadgk(fab,0,pi);
+<span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="comment">%Graph 6</span>
+figure(<span class="string">'name'</span>,<span class="string">'Value of Time for Various a1'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'Time taken for fall as a function of parameter a1'</span>)
+ylabel(<span class="string">'Time'</span>)
+xlabel(<span class="string">'a1'</span>)
+plot(a,g,<span class="string">'r'</span>);
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="a10bonusq_06.png" style="width:560px;height:420px;" alt=""> <p>This is minimum at approximately a=-1.65. Hence we choose this value. It follows that in the question we have a0=2, a1=-1.65 and a2=0.323</p><h2 id="18">PART C</h2><p>Observing graph 4 for negative values of a we estimate that the minimum fall time is 4.5686/(2g)^(1/2) which is approximately equal to 1.03 seconds.</p><h2 id="19">PART D</h2><p>Graph 7</p><pre class="codeinput">figure(<span class="string">'name'</span>,<span class="string">'Value of Time for Various a1'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+title(<span class="string">'Approximation vs. Cycloid'</span>)
+ylabel(<span class="string">'Time'</span>)
+xlabel(<span class="string">'a1'</span>)
+y=@(x) 2+(-1.65)*x+a2(-1.65).*x.^2;
+plot(x,y(x),<span class="string">'r'</span>);
+[x,sol]=ode45(@particlemotion,x,initialconditions);
+plot(x,sol(:,1),<span class="string">'b'</span>);
+legend(<span class="string">'Approxmation'</span>,<span class="string">'ODE Solution'</span>)
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="a10bonusq_07.png" style="width:560px;height:420px;" alt=""> <p>Clearly the two solution agree to a significnt amount, note that the approximate trajectory falls slower at first.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%%
+% NOTE TO MARKER: See physical copy of assignment 8 for all written work
+% for parts a) and b)
+
+%% 
+% Seting up the ODE solver
+warning('off','all')
+type particlemotion
+
+%% PART A
+
+%%
+% We begin by creating the initial conditions for the bead. Note that we
+% require a large negative starting slope
+
+initialconditions=[1.999999,-1390];
+x=[0,pi];
+
+[x,sol]=ode45(@particlemotion,x,initialconditions);
+
+
+theta=linspace(0,pi);
+xcycloid=theta-sin(theta);
+ycycloid=1+cos(theta);
+
+%% 
+% This is a graph of our solution to the ODE
+
+%% 
+% Graph 1
+figure('name','Solution to ODE','NumberTitle','on');
+hold on;
+title('Trajectory of bead ODE')
+ylabel('y component (m)')
+xlabel('x component (m)')
+plot(x,sol(:,1),'r'); %particle 1
+hold off;
+
+%%
+% This is a graph of the cycloid
+
+%% 
+% Graph 2
+figure('name','Cycloid','NumberTitle','on');
+hold on;
+title('Trajectory of bead Cycloid')
+ylabel('y component (m)')
+xlabel('x component (m)')
+plot(xcycloid,ycycloid,'b')
+hold off;
+
+%%
+% Note that they are basically identical when we plot them over top of
+% eachother.
+%% 
+% Graph 3
+figure('name','Solution and Cycloid','NumberTitle','on');
+hold on;
+title('Trajectory of Bead Cycloid and ODE')
+ylabel('y component (m)')
+xlabel('x component (m)')
+plot(x,sol(:,1),'r'); %particle 1
+plot(xcycloid,ycycloid,'b')
+hold off;
+
+%% PART B
+% We define a2 as a function of a1 (we write a1 as 'a' in this code).
+
+a2 = @(a) -((2+pi*a)/(pi^2));
+f = @(a,x) ((1+(a+2*a2(a).*x).^2)./(-a.*x-a2(a).*x.^2)).^(0.5);
+a = -15:.1:10;
+g = 0*a;
+for k = 1:numel(a)
+    fab = @(x) f(a(k),x); 
+    g(k) = quadgk(fab,0,pi);
+end
+   
+
+%%
+% This graph plots the fall time as a function of a 
+
+%% 
+% Graph 4
+figure('name','Value of Time for Various a1','NumberTitle','on');
+hold on;
+title('Time taken for fall as a function of parameter a1')
+ylabel('Time')
+xlabel('a1')
+plot(a,g,'r'); 
+hold off;
+
+%% 
+% This seems to imply we want to make a as large as possible. From the
+% graph below we show that if a>0 (for an example of a=1) then the particle
+% begins by moving upward which can't happen if the bead is falling down.
+x=linspace(0,pi);
+y=@(x) 2+(1)*x+a2(1).*x.^2;
+%% 
+% Graph 5
+figure('name','Value of Time for Various a1','NumberTitle','on');
+hold on;
+title('x and y coordinates of particle')
+ylabel('y')
+xlabel('x'); 
+plot(x,y(x),'r'); 
+hold off;
+
+%%
+% It follows that a<0. We choose the value of a<0 that minimizes the
+% motion. We thus examine the following graph time as a function of 'a' more closely.
+
+a = -3:.01:-0.5;
+g = 0*a;
+for k = 1:numel(a)
+    fab = @(x) f(a(k),x); 
+    g(k) = quadgk(fab,0,pi);
+end
+
+%% 
+%Graph 6
+figure('name','Value of Time for Various a1','NumberTitle','on');
+hold on;
+title('Time taken for fall as a function of parameter a1')
+ylabel('Time')
+xlabel('a1')
+plot(a,g,'r'); 
+hold off;
+
+
+%%
+% This is minimum at approximately a=-1.65. Hence we choose this value. It
+% follows that in the question we have a0=2, a1=-1.65 and a2=0.323
+
+%% PART C
+% Observing graph 4 for negative values of a we estimate that the minimum
+% fall time is 4.5686/(2g)^(1/2) which is approximately equal to 1.03
+% seconds.
+
+%% PART D
+
+%% 
+% Graph 7
+figure('name','Value of Time for Various a1','NumberTitle','on');
+hold on;
+title('Approximation vs. Cycloid')
+ylabel('Time')
+xlabel('a1')
+y=@(x) 2+(-1.65)*x+a2(-1.65).*x.^2;
+plot(x,y(x),'r');
+[x,sol]=ode45(@particlemotion,x,initialconditions);
+plot(x,sol(:,1),'b');
+legend('Approxmation','ODE Solution')
+hold off;
+
+%%
+% Clearly the two solution agree to a significnt amount, note that the
+% approximate trajectory falls slower at first.
+
+
+##### SOURCE END #####
+--></body></html>

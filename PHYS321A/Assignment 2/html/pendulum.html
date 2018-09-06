@@ -1,0 +1,287 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Fowels and Cassidy Problem C 3.1</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-09-29"><meta name="DC.source" content="pendulum.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Fowels and Cassidy Problem C 3.1</h1><!--introduction--><p>Luke Polson V00849485</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">PART A</a></li><li><a href="#5">PART B</a></li><li><a href="#9">PART C</a></li></ul></div><h2 id="1">PART A</h2><p>Defines appropriate constants</p><pre class="codeinput">g=9.81;
+L=1;
+omega2=g/L;
+theta_0=pi/2;
+omega_0=0;
+</pre><p>Solves ODE without approximation</p><pre class="codeinput">f1 = @(t,y)[y(2);-omega2*sin(y(1))];
+sol1 = ode113(f1, [0 10], [theta_0; omega_0]);
+x1 = 0:0.01:4;
+y1 = deval(sol1,x1,1);
+</pre><p>Solves ODE with approximation</p><pre class="codeinput">f2 = @(t,y)[y(2);-omega2*y(1)];
+sol2 = ode113(f2, [0 10], [theta_0; omega_0]);
+x2 = 0:0.01:4;
+y2 = deval(sol2,x2,1);
+</pre><p>Here is the plot of the approximate and exact solution</p><pre class="codeinput">figure(<span class="string">'name'</span>,<span class="string">'Part A'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+
+title(<span class="string">'Angle of Pendulum as a Function of Time'</span>)
+ylabel(<span class="string">'Angle of Pendulumn (\theta)'</span>)
+xlabel(<span class="string">'Time (s)'</span>)
+plot(x1, y1, <span class="string">'r'</span>);
+plot(x2, y2, <span class="string">'b'</span>);
+legend(<span class="string">'Using sin\theta in ODE'</span>,<span class="string">'Using sin\theta = \theta'</span>)
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="pendulum_01.png" style="width:560px;height:420px;" alt=""> <h2 id="5">PART B</h2><p>We change the initial condition of the starting angle</p><pre class="codeinput">theta_0=3.1;
+</pre><p>Solves ODE without approximation</p><pre class="codeinput">f1 = @(t,y)[y(2);-omega2*sin(y(1))];
+sol1 = ode113(f1, [0 10], [theta_0; omega_0]);
+x1 = linspace(0,4,1000);
+y1 = deval(sol1,x1,1);
+y1correct = linspace(0,7,1000);
+
+<span class="comment">%Corrects so that -pi&lt;theta&lt;pi</span>
+</pre><p>Solves ODE with approximation</p><pre class="codeinput">f2 = @(t,y)[y(2);-omega2*y(1)];
+sol2 = ode113(f2, [0 10], [theta_0; omega_0]);
+x2 = linspace(0,4,100);
+y2 = deval(sol2,x2,1);
+</pre><p>Plots theta as a function of time</p><pre class="codeinput">figure(<span class="string">'name'</span>,<span class="string">'Part B'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+
+title(<span class="string">'Angle of Pendulum as a Function of Time'</span>)
+ylabel(<span class="string">'Angle of Pendulumn (\theta)'</span>)
+xlabel(<span class="string">'Time (s)'</span>)
+plot(x1, y1, <span class="string">'r'</span>);
+plot(x2, y2, <span class="string">'b'</span>);
+legend(<span class="string">'Using sin\theta in ODE'</span>,<span class="string">'Using sin\theta = \theta'</span>)
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="pendulum_02.png" style="width:560px;height:420px;" alt=""> <h2 id="9">PART C</h2><p>We define an array of starting angles theta and periods. Note that the values in the array of period will be changed in a bit.</p><pre class="codeinput">theta0=[0:0.01:3.0];
+period=[0:0.01:3.0];
+approxperiod=2*pi*sqrt(L/g);
+
+i=1; <span class="comment">%Index Of Period Array</span>
+</pre><p>The loop below loops over all initial conditions, solves the ODE, and finds the period for each solution. The value of the period is put in the period array.</p><pre class="codeinput"><span class="keyword">for</span> theta = theta0
+    <span class="comment">%Finds Solution of Motion for given initial condition theta</span>
+    f1 = @(t,y)[y(2);-omega2*sin(y(1))];
+    sol1 = ode113(f1, [0 100], [theta; omega_0]);
+    x1 = 0:0.1:100;
+    y1 = deval(sol1,x1,1);
+
+    <span class="comment">%Finds the period of the Pendulum for given solution</span>
+    ac=xcorr(y1,y1);
+    [~,locs]=findpeaks(ac);
+    T=mean(diff(locs)*0.1);
+    period(i)=T;
+    i=i+1;
+<span class="keyword">end</span>;
+</pre><p>Plots Period as a Function of initial angle theta</p><pre class="codeinput">figure(<span class="string">'name'</span>,<span class="string">'Part C'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'on'</span>);
+hold <span class="string">on</span>;
+
+title(<span class="string">'Period of Pendulumn as a Function of Starting Angle'</span>)
+xlabel(<span class="string">'Starting Angle \theta'</span>)
+ylabel(<span class="string">'Period (s)'</span>)
+scatter(theta0, period, <span class="string">'r'</span>);
+refline(0,approxperiod);
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="pendulum_03.png" style="width:560px;height:420px;" alt=""> <p>Finds the value of theta0 were approximation is worse than 2%</p><pre class="codeinput">i=1;
+<span class="keyword">for</span> periodcurr = period
+    <span class="keyword">if</span> (periodcurr/approxperiod&gt;1.02)
+        disp(theta0(i));
+        <span class="keyword">break</span>
+    <span class="keyword">end</span>
+    i=i+1;
+<span class="keyword">end</span>;
+</pre><pre class="codeoutput">    0.5700
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Fowels and Cassidy Problem C 3.1
+% Luke Polson V00849485
+
+
+%% PART A
+% Defines appropriate constants
+g=9.81;
+L=1;
+omega2=g/L;
+theta_0=pi/2;
+omega_0=0;
+
+%%
+% Solves ODE without approximation
+f1 = @(t,y)[y(2);-omega2*sin(y(1))];
+sol1 = ode113(f1, [0 10], [theta_0; omega_0]);
+x1 = 0:0.01:4;
+y1 = deval(sol1,x1,1);
+
+%%
+% Solves ODE with approximation
+f2 = @(t,y)[y(2);-omega2*y(1)];
+sol2 = ode113(f2, [0 10], [theta_0; omega_0]);
+x2 = 0:0.01:4;
+y2 = deval(sol2,x2,1);
+
+%%
+% Here is the plot of the approximate and exact solution
+
+figure('name','Part A','NumberTitle','on');
+hold on;
+
+title('Angle of Pendulum as a Function of Time')
+ylabel('Angle of Pendulumn (\theta)')
+xlabel('Time (s)')
+plot(x1, y1, 'r');
+plot(x2, y2, 'b');
+legend('Using sin\theta in ODE','Using sin\theta = \theta')
+hold off;
+
+%% PART B
+% We change the initial condition of the starting angle
+theta_0=3.1;
+
+%%
+% Solves ODE without approximation
+f1 = @(t,y)[y(2);-omega2*sin(y(1))];
+sol1 = ode113(f1, [0 10], [theta_0; omega_0]);
+x1 = linspace(0,4,1000);
+y1 = deval(sol1,x1,1);
+y1correct = linspace(0,7,1000);
+
+%Corrects so that -pi<theta<pi
+
+
+%%
+% Solves ODE with approximation
+f2 = @(t,y)[y(2);-omega2*y(1)];
+sol2 = ode113(f2, [0 10], [theta_0; omega_0]);
+x2 = linspace(0,4,100);
+y2 = deval(sol2,x2,1);
+
+%%
+% Plots theta as a function of time
+
+figure('name','Part B','NumberTitle','on');
+hold on;
+
+title('Angle of Pendulum as a Function of Time')
+ylabel('Angle of Pendulumn (\theta)')
+xlabel('Time (s)')
+plot(x1, y1, 'r');
+plot(x2, y2, 'b');
+legend('Using sin\theta in ODE','Using sin\theta = \theta')
+hold off;
+
+%% PART C
+% We define an array of starting angles theta and periods. Note that the
+% values in the array of period will be changed in a bit.
+
+theta0=[0:0.01:3.0];
+period=[0:0.01:3.0]; 
+approxperiod=2*pi*sqrt(L/g);
+
+i=1; %Index Of Period Array
+%%
+% The loop below loops over all initial conditions, solves the ODE, and
+% finds the period for each solution. The value of the period is put in the
+% period array.
+for theta = theta0
+    %Finds Solution of Motion for given initial condition theta
+    f1 = @(t,y)[y(2);-omega2*sin(y(1))];
+    sol1 = ode113(f1, [0 100], [theta; omega_0]);
+    x1 = 0:0.1:100;
+    y1 = deval(sol1,x1,1);
+    
+    %Finds the period of the Pendulum for given solution
+    ac=xcorr(y1,y1);
+    [~,locs]=findpeaks(ac);
+    T=mean(diff(locs)*0.1);
+    period(i)=T;
+    i=i+1;
+end;
+    
+%%
+% Plots Period as a Function of initial angle theta
+figure('name','Part C','NumberTitle','on');
+hold on;
+
+title('Period of Pendulumn as a Function of Starting Angle')
+xlabel('Starting Angle \theta')
+ylabel('Period (s)')
+scatter(theta0, period, 'r');
+refline(0,approxperiod);
+hold off;
+
+%% 
+% Finds the value of theta0 were approximation is worse than 2%
+i=1;
+for periodcurr = period
+    if (periodcurr/approxperiod>1.02)
+        disp(theta0(i));
+        break
+    end
+    i=i+1;
+end;
+    
+    
+    
+    
+    
+
+##### SOURCE END #####
+--></body></html>
