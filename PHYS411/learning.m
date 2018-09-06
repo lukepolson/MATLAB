@@ -12,6 +12,6 @@ figure(2)
 
 function temp = get_temp(x,y)
 
-temp = x.^2+y.^2
+temp = x+sin(y)
 
 end
